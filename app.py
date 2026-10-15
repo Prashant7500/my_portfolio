@@ -1,4 +1,10 @@
 import streamlit as st
+import sys
+from pathlib import Path
+
+# Path fix taaki components sahi se load hon
+sys.path.append(str(Path(__file__).parent))
+
 from styles import CUSTOM_CSS
 from components.sidebar import render_sidebar
 from components.hero import render_hero
@@ -14,14 +20,20 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Global Styles
+# 2. Inject CSS
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
-# Purana tarika (5 lines) hatakar simple ye likh sakte hain:
-from components import (
-    render_sidebar,
-    render_hero,
-    render_skills,
-    render_projects,
-    render_contact
-)
+# 3. Render Sidebar
+render_sidebar()
+
+# 4. Render Main Sections
+render_hero()
+st.markdown("---")
+
+render_skills()
+st.markdown("---")
+
+render_projects()
+st.markdown("---")
+
+render_contact()
