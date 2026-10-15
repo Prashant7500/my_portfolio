@@ -1,7 +1,8 @@
 import streamlit as st
 import urllib.parse
 
-MY_EMAIL = "gangwarprashant56789@gmail.com"
+# Yahan apni actual Gmail ID dalein
+RECEIVER_EMAIL = "gangwarprashant7983@gmail.com"
 
 def render_contact():
     st.subheader("📬 Get In Touch")
@@ -13,30 +14,31 @@ def render_contact():
         subject_input = st.text_input("Subject", placeholder="Project Inquiry / Job Opportunity")
         message = st.text_area("Message", placeholder="Write your message here...")
 
-        if name and message:
-            subject = f"Portfolio Contact: {subject_input if subject_input else 'Inquiry'} from {name}"
-            body = f"Hi Prashant,\n\n{message}\n\nRegards,\n{name}"
-            
-            # URL encode params
-            encoded_subject = urllib.parse.quote(subject)
-            encoded_body = urllib.parse.quote(body)
-            mailto_url = f"mailto:{MY_EMAIL}?subject={encoded_subject}&body={encoded_body}"
+        if name.strip() and message.strip():
+            subject = f"Portfolio Inquiry from {name.strip()}"
+            if subject_input.strip():
+                subject = f"{subject_input.strip()} - from {name.strip()}"
 
-            st.markdown(f"""
-                <a href="{mailto_url}" target="_blank" style="text-decoration: none;">
-                    <div style="
-                        background-color: #38BDF8;
-                        color: #0F172A;
-                        text-align: center;
-                        padding: 12px;
-                        border-radius: 8px;
-                        font-weight: 700;
-                        margin-top: 10px;
-                        cursor: pointer;">
-                        ✉️ Send via Gmail / Mail App
-                    </div>
-                </a>
-            """, unsafe_allow_html=True)
+            body = f"Hi Prashant,\n\n{message.strip()}\n\nRegards,\n{name.strip()}"
+
+            # Direct Web Gmail Compose URL (100% browser me khulega)
+            params = {
+                "view": "cm",
+                "fs": "1",
+                "to": RECEIVER_EMAIL,
+                "su": subject,
+                "body": body
+            }
+            gmail_url = f"https://mail.google.com/mail/?{urllib.parse.urlencode(params)}"
+
+            # Streamlit ka built-in link_button
+            st.link_button(
+                "🚀 Send via Gmail",
+                gmail_url,
+                type="primary",
+                use_container_width=True
+            )
         else:
-            st.button("Send Message", disabled=True, use_container_width=True)
+            st.button("Send via Gmail", disabled=True, use_container_width=True)
+            st.caption("Name aur Message enter karein button activate karne ke liye.")         
             st.caption("Name aur Message fill karein button activate karne ke liye.")
