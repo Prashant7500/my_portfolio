@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Yahan apni actual email ID dalein jahan message receive karna hai
-RECEIVER_EMAIL = "prashant_254034206@sliet.ac.in"
+RECEIVER_EMAIL = "gangwarprashant7983@gmail.com"
 
 def render_contact():
     st.subheader("📬 Get In Touch")
